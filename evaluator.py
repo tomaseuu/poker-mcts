@@ -50,6 +50,9 @@ def evaluate_hand(cards):
     # Grabs the number of times each card rank appears to make it easier
     counts = list(rank_counts.values())
 
+    #straight_high function
+    straight_high = find_straight(list(rank_counts.keys()))
+
     # Four of a Kind
     if 4 in counts:
         print("You have four of a kind!")
@@ -72,6 +75,11 @@ def evaluate_hand(cards):
         flush_cards.sort(reverse=True)
         return(5, flush_cards[:5])
     
+    # Straight
+    elif straight_high:
+        print("You have a Straight!")
+        return(6, [straight_high])
+    
     # Three of a Kind
     elif 3 in counts:
         print("You have Three of a Kind!")
@@ -92,8 +100,30 @@ def evaluate_hand(cards):
         print("You have High Card!")
         high_cards = sorted(rank_counts.keys(), reverse=True)
         return (10, high_cards[:5])  
-    
 
+# Function to remove duplicates, handle straights, find the highest straight,
+# and returns the highest card in that straight
+def find_straight(ranks):
+    ranks = sorted(set(ranks)) # removes duplicates
+
+    # Ace can act like 1
+    if 14 in ranks:
+        ranks.append(1)
+    continuous= []      # current sequence of continuous numbers
+    max_straight= []    # store longest straight it finds
+
+    for rank in ranks:
+        if continuous and rank == continuous[-1] + 1:
+            continuous.append(rank)
+        elif not continuous or rank != continuous[-1]:
+            continuous = [rank]
+        if len(continuous) >= 5:
+            max_straight = continuous[:] # makes a copy
+    if max_straight:
+        return max_straight[-1]
+    else:
+        return None
+    
 # returns highest rank that appear exactly 'count' times
 def find_highest_rank_with_count(rank_counts, count):
     for rank in sorted(rank_counts.keys(), reverse = True):
@@ -141,5 +171,5 @@ def compare_hands(hand1, hand2):
 
 # testing
 if __name__ == "__main__":
-    test_hand = ['2 Hearts', '5 Hearts', '9 Hearts', 'K Hearts', '6 Hearts', '3 Spades', 'J Diamonds']
+    test_hand = ['5 Spades', '6 Hearts', '7 Diamonds', '8 Clubs', '9 Spades', 'K Hearts', '2 Diamonds']
     evaluate_hand(test_hand)
