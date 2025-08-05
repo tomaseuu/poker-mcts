@@ -27,8 +27,24 @@ def evaluate_hand(cards):
             # if it is the first time being visited, set count to 1
             rank_counts[rank] = 1
 
-    print("parsed cards: ", parsed_cards)
-    print("rank counts:", rank_counts)
+    # Checking to see how many times each card suit shows up
+    suit_counts = {}
+    for card in parsed_cards:
+        suit = card[1]
+        if suit in suit_counts:
+            suit_counts[suit] += 1
+        else:
+            suit_counts[suit] = 1
+
+    # Finds which suit has 5 or more cards, and stores it in flush_suit
+    for suit in suit_counts:
+        count = suit_counts[suit]
+        if count >= 5:
+            flush_suit = suit
+            break
+        else: 
+            flush_suit = None
+
 
 
     # Grabs the number of times each card rank appears to make it easier
@@ -44,6 +60,18 @@ def evaluate_hand(cards):
         print("You have a Full House!")
         return (4, [find_highest_rank_with_count(rank_counts, 3), find_highest_rank_with_count(rank_counts, 2)])
 
+    # Flush - (Note: Reverse = True, looks at the highest/bestest cards first)
+    elif flush_suit: 
+        print("You have a Flush!")
+        flush_cards = []
+        for card in parsed_cards:
+            rank = card[0]
+            suit = card[1]
+            if suit == flush_suit:
+                flush_cards.append(rank)
+        flush_cards.sort(reverse=True)
+        return(5, flush_cards[:5])
+    
     # Three of a Kind
     elif 3 in counts:
         print("You have Three of a Kind!")
@@ -113,5 +141,5 @@ def compare_hands(hand1, hand2):
 
 # testing
 if __name__ == "__main__":
-    test_hand = ['6 Spades', 'K Hearts', 'A Diamonds', '2 Spades', 'T Hearts', 'J Hearts', '2 Diamonds']
+    test_hand = ['2 Hearts', '5 Hearts', '9 Hearts', 'K Hearts', '6 Hearts', '3 Spades', 'J Diamonds']
     evaluate_hand(test_hand)

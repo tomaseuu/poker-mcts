@@ -6,7 +6,7 @@ suits_deck = ["Spades", "Hearts", "Diamonds", "Clubs"]
 ranks_deck = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]  #'T' is 10
 
 
-# create a full 52-card deck as strings
+# Create a full 52-card deck as strings
 def create_deck():
     deck = []
 
@@ -16,11 +16,11 @@ def create_deck():
             deck.append(card)
     return deck
 
-# shuffle
+# Shuffle
 def shuffle_deck(deck):
     random.shuffle(deck)
 
-# draw 
+# Draw 
 def draw_cards(deck, num):
     drawn = []
 
