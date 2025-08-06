@@ -60,6 +60,6 @@ def game_result(game_state):
     else:
         return "Tie!"
     
-def estimate_win_rate(my_hand, simulations=10000):
+def estimate_win_rate(my_hand, simulations=1000):
     win_rate = run_mcts(my_hand, simulations)
     return win_rate * 100 

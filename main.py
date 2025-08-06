@@ -4,9 +4,9 @@
 from win_estimator import estimate_win_rate
 
 
-my_hand = ['J Hearts', 'Q Spades'] 
+my_hand = ['2 Hearts', '2 Spades'] 
 
-simulations = 5000   # increase if you want better accuracy
+simulations = 10000   # increase if you want better accuracy
 estimated = estimate_win_rate(my_hand, simulations=simulations)
 
 print("\n--------------------------------------")
