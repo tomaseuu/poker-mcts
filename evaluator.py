@@ -45,13 +45,32 @@ def evaluate_hand(cards):
         else: 
             flush_suit = None
 
-
-
     # Grabs the number of times each card rank appears to make it easier
     counts = list(rank_counts.values())
 
     #straight_high function
     straight_high = find_straight(list(rank_counts.keys()))
+
+    # Check to see if it is a Straight Flush or a Royal Flush
+    if flush_suit:
+        suited_ranks = []
+        for card in parsed_cards:
+            rank = card[0]
+            suit = card[1]
+
+            if suit == flush_suit:
+                suited_ranks.append(rank)
+
+        straight_flush_high = find_straight(suited_ranks)
+        
+        if straight_flush_high:
+            if straight_flush_high == 14:
+                print("You have a Royal Flush!")
+                return (1, [14])
+            else:
+                print("You have a Straight Flush!")
+                return (2, [straight_flush_high])
+
 
     # Four of a Kind
     if 4 in counts:
@@ -168,8 +187,3 @@ def compare_hands(hand1, hand2):
         else: 
             i += 1
     return 0
-
-# testing
-if __name__ == "__main__":
-    test_hand = ['5 Spades', '6 Hearts', '7 Diamonds', '8 Clubs', '9 Spades', 'K Hearts', '2 Diamonds']
-    evaluate_hand(test_hand)
